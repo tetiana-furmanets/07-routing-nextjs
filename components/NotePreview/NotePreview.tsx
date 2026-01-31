@@ -6,7 +6,11 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchNoteById } from '@/lib/api';
 import type { Note } from '@/types/note';
 
-export default function NotePreview() {
+interface NotePreviewProps {
+  currentTag: string;
+}
+
+export default function NotePreview({ currentTag }: NotePreviewProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
@@ -17,10 +21,16 @@ export default function NotePreview() {
     enabled: !!id,
   });
 
-  if (isLoading || !note) return null;
+  const handleClose = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('id');
+    router.push(`/notes/filter/${currentTag}?${params.toString()}`);
+  };
+
+  if (!id || isLoading || !note) return null;
 
   return (
-    <Modal onClose={() => router.back()}>
+    <Modal onClose={handleClose}>
       <h2>{note.title}</h2>
       <p>{note.content}</p>
       <p>Category: {note.category}</p>

@@ -1,7 +1,6 @@
-'use client'; 
+'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteNote } from '@/lib/api';
+import { useRouter, useSearchParams } from 'next/navigation';
 import type { Note } from '@/types/note';
 import css from './NoteList.module.css';
 
@@ -11,14 +10,16 @@ interface NoteListProps {
 }
 
 export default function NoteList({ notes, currentTag = 'all' }: Readonly<NoteListProps>) {
-  const queryClient = useQueryClient();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteNote,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notes'] });
-    },
-  });
+const openModal = (noteId: string, tag: string) => {
+  const params = new URLSearchParams(searchParams.toString());
+  params.set('id', noteId);
+  router.push(`/notes/filter/${tag}?${params.toString()}`);
+};
+
+
 
   return (
     <div className={css.list}>
@@ -28,17 +29,11 @@ export default function NoteList({ notes, currentTag = 'all' }: Readonly<NoteLis
           <p className={css.tag}>{note.tag}</p>
           <p className={css.content}>{note.content}</p>
           <div className={css.actions}>
-            <a href={`/notes/filter/${currentTag}/modal?id=${note.id}`} className={css.link}>
-              View details
-            </a>
-            <button
-              type="button"
-              className={css.deleteButton}
-              onClick={() => deleteMutation.mutate(note.id)}
-              disabled={deleteMutation.isPending}
-            >
-              Delete
+            <button type="button" className={css.link} onClick={() => openModal(note.id, currentTag)}>
+            View details
             </button>
+
+
           </div>
         </div>
       ))}
