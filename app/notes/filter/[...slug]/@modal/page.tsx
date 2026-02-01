@@ -27,7 +27,7 @@ export default function NotePreview() {
     <Modal onClose={handleClose}>
       <h2>{note.title}</h2>
       <p>{note.content}</p>
-      <p>Category: {note.tag}</p>
+      <p>Tag: {note.tag}</p>
       <p>Date: {new Date(note.createdAt).toLocaleString()}</p>
     </Modal>
   );
