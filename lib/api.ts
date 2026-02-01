@@ -13,12 +13,11 @@ const instance = axios.create({
 
 instance.interceptors.request.use(config => {
   const token = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
-  if (token) {
-    config.headers = {
-      ...config.headers,
-      Authorization: `Bearer ${token}`,
-    };
+
+  if (token && config.headers) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
 
