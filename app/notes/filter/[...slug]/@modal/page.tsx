@@ -11,9 +11,12 @@ export default function NotePreview() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
 
-  const { data: note, isLoading } = useQuery<Note>({
+  const { data: note, isLoading } = useQuery({
     queryKey: ['note', id],
-    queryFn: () => fetchNoteById(id!),
+    queryFn: async (): Promise<Note> => {
+      if (!id) throw new Error('No ID provided');
+      return fetchNoteById(id);
+    },
     enabled: !!id,
   });
 
