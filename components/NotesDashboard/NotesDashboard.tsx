@@ -1,8 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { fetchNotes } from '@/lib/api';
+import {
+  useQuery,
+  QueryClient,
+  QueryClientProvider,
+  keepPreviousData,
+} from '@tanstack/react-query';
+import { fetchNotes, FetchNotesResponse } from '@/lib/api';
+
 import NoteList from '@/components/NoteList/NoteList';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import { Pagination } from '@/components/Pagination/Pagination';
@@ -19,18 +25,18 @@ function NotesDashboard() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const id = setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       setDebounced(search);
       setPage(1);
     }, 500);
 
-    return () => clearTimeout(id);
+    return () => clearTimeout(timeoutId);
   }, [search]);
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery<FetchNotesResponse, Error>({
     queryKey: ['notes', page, debounced],
     queryFn: () => fetchNotes(page, 12, debounced),
-    keepPreviousData: true, // тепер TypeScript розуміє
+    placeholderData: keepPreviousData, // ✅ ПРАВИЛЬНО ДЛЯ v5
   });
 
   if (isLoading) return <p>Loading...</p>;
@@ -49,7 +55,6 @@ function NotesDashboard() {
         </ul>
       </nav>
 
-      {/* Передаємо value та onSearch */}
       <SearchBox value={search} onSearch={setSearch} />
       <button onClick={() => setIsOpen(true)}>Add note</button>
 
