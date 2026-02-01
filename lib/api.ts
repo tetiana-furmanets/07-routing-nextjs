@@ -80,11 +80,12 @@ export const fetchNoteById = async (id: string): Promise<Note> => {
 
 export const fetchNotesByTag = async (tag?: string): Promise<Note[]> => {
   try {
-   const tagParam =
-  tag && tag.toLowerCase() !== 'all'
-    ? tag.charAt(0).toUpperCase() + tag.slice(1).toLowerCase()
-    : undefined;
-const data = await fetchNotes(1, 12, '', tagParam);
+    const tagParam =
+      tag && tag.toLowerCase() !== 'all'
+        ? tag.charAt(0).toUpperCase() + tag.slice(1).toLowerCase()
+        : undefined;
+
+    const data = await fetchNotes(1, 12, '', tagParam);
 
     return data.notes;
   } catch (error: any) {
@@ -92,6 +93,7 @@ const data = await fetchNotes(1, 12, '', tagParam);
     return [];
   }
 };
+
 
 
 
