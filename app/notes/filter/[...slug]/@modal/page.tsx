@@ -9,7 +9,7 @@ import type { Note } from '@/types/note';
 export default function NotePreview() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const id = searchParams.get('id'); // отримуємо id з query
+  const id = searchParams.get('id');
 
   const { data: note, isLoading } = useQuery<Note>({
     queryKey: ['note', id],
@@ -18,7 +18,7 @@ export default function NotePreview() {
   });
 
   const handleClose = () => {
-    router.back(); 
+    router.back();
   };
 
   if (isLoading || !note) return null;
@@ -27,9 +27,9 @@ export default function NotePreview() {
     <Modal onClose={handleClose}>
       <h2>{note.title}</h2>
       <p>{note.content}</p>
-      <p>Category: {note.category}</p>
+      <p>Category: {note.tag}</p>
       <p>Priority: {note.priority}</p>
-      <p>Date: {note.date}</p>
+      <p>Date: {new Date(note.createdAt).toLocaleString()}</p>
     </Modal>
   );
 }
