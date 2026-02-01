@@ -33,9 +33,8 @@ export default function NotePreview({ currentTag }: NotePreviewProps) {
     <Modal onClose={handleClose}>
       <h2>{note.title}</h2>
       <p>{note.content}</p>
-      <p>Category: {note.category}</p>
-      <p>Priority: {note.priority}</p>
-      <p>Date: {note.date}</p>
+      <p>Tag: {note.tag}</p>
+      <p>Date: {new Date(note.createdAt).toLocaleString()}</p>
     </Modal>
   );
 }
