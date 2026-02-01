@@ -28,7 +28,6 @@ export default function NotePreview() {
       <h2>{note.title}</h2>
       <p>{note.content}</p>
       <p>Category: {note.tag}</p>
-      <p>Priority: {note.priority}</p>
       <p>Date: {new Date(note.createdAt).toLocaleString()}</p>
     </Modal>
   );
