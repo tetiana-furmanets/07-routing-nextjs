@@ -32,7 +32,6 @@ function NotesDashboard() {
 const { data, isLoading, isError } = useQuery({
   queryKey: ['notes', page, debounced],
   queryFn: () => fetchNotes(page, 12, debounced),
-  keepPreviousData: true, 
 });
 
 
