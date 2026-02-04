@@ -36,7 +36,7 @@ function NotesDashboard() {
   const { data, isLoading, isError } = useQuery<FetchNotesResponse, Error>({
     queryKey: ['notes', page, debounced],
     queryFn: () => fetchNotes(page, 12, debounced),
-    placeholderData: keepPreviousData, // ✅ ПРАВИЛЬНО ДЛЯ v5
+    placeholderData: keepPreviousData, 
   });
 
   if (isLoading) return <p>Loading...</p>;

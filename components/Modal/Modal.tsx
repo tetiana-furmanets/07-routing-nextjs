@@ -11,27 +11,25 @@ interface ModalProps {
 }
 
 export default function Modal({ children, onClose }: ModalProps) {
-  const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
+ const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
 
-  useEffect(() => {
-    setModalRoot(document.getElementById('modal-root'));
+useEffect(() => {
+  const root = document.getElementById('modal-root');
+  setModalRoot(root);
 
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
+  const handleEscape = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
 
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+  const originalOverflow = document.body.style.overflow;
+  document.body.style.overflow = 'hidden';
 
-    window.addEventListener('keydown', handleEscape);
+  window.addEventListener('keydown', handleEscape);
 
-    return () => {
-      document.body.style.overflow = originalOverflow;
-      window.removeEventListener('keydown', handleEscape);
-    };
-  }, [onClose]);
+  return () => {
+    window.removeEventListener('keydown', handleEscape);
+    document.body.style.overflow = originalOverflow;
+  };
+}, [onClose]);
+
 
   if (!modalRoot) return null;
 

@@ -1,23 +1,21 @@
 'use client';
 
 import Modal from '@/components/Modal/Modal';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { fetchNoteById } from '@/lib/api';
 import { useQuery } from '@tanstack/react-query';
-import type { Note } from '@/types/note';
 
-export default function NotePreview() {
+export default function NotePreview({
+  params,
+}: {
+  params: { id: string };
+}) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const id = searchParams.get('id');
+  const { id } = params;
 
   const { data: note, isLoading } = useQuery({
     queryKey: ['note', id],
-    queryFn: async (): Promise<Note> => {
-      if (!id) throw new Error('No ID provided');
-      return fetchNoteById(id);
-    },
-    enabled: !!id,
+    queryFn: () => fetchNoteById(id),
   });
 
   const handleClose = () => {
