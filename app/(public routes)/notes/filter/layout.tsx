@@ -1,9 +1,12 @@
+// app/notes/filter/layout.tsx
+
+
 type Props = {
   children: React.ReactNode;
   sidebar: React.ReactNode;
 };
 
-const NotesFilterLayout = ({ children, sidebar }: Props) => {
+const NotesLayout = ({ children, sidebar }: Props) => {
   return (
     <section>
       <aside>{sidebar}</aside>
@@ -12,4 +15,5 @@ const NotesFilterLayout = ({ children, sidebar }: Props) => {
   );
 };
 
-export default NotesFilterLayout;
+export default NotesLayout;
+

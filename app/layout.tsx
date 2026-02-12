@@ -1,3 +1,5 @@
+// app/layout.tsx
+
 import type { Metadata } from 'next';
 import './globals.css';
 
@@ -12,18 +14,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+  modal,
+}: {
+  children: React.ReactNode;
+  modal: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
         <TanStackProvider>
           <Header />
-          {children}
+          <main>
+            {children}
+            {modal}
+          </main>
           <Footer />
         </TanStackProvider>
-
-       <div id="modal-root"></div>
- 
       </body>
     </html>
   );

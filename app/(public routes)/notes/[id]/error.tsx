@@ -1,3 +1,5 @@
+// app/notes/[id]/error.tsx
+
 'use client';
 
 type NoteErrorProps = {

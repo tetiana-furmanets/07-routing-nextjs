@@ -1,3 +1,6 @@
+// app/error.tsx
+
+
 'use client';
 
 type ErrorProps = Readonly<{
