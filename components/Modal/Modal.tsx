@@ -1,23 +1,25 @@
 // components/Modal/Modal.tsx
-
 'use client';
 
-import { useRouter } from 'next/navigation';
+import React from 'react';
 
-type Props = {
+interface ModalProps {
   children: React.ReactNode;
-};
+  onClose: () => void; 
+}
 
-const Modal = ({ children }: Props) => {
-  const router = useRouter();
-  
-  const close = () => router.back();
-
+const Modal: React.FC<ModalProps> = ({ children, onClose }) => {
   return (
-    <div>
-      <div>
+    <div
+      onClick={onClose} 
+      style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)' }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()} 
+        style={{ backgroundColor: 'white', margin: '100px auto', padding: '20px', width: 'fit-content' }}
+      >
         {children}
-        <button onClick={close}>Close</button>
+        <button onClick={onClose}>Close</button>
       </div>
     </div>
   );

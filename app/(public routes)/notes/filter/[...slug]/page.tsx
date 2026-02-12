@@ -2,11 +2,11 @@
 import NotesClient from './Notes.client';
 
 type Props = {
-  params: Promise<{ slug?: string[] }>; // params приходить як Promise
+  params: Promise<{ slug?: string[] }>; 
 };
 
 export default async function FilterPage({ params }: Props) {
-  const resolvedParams = await params; // розпаковуємо Promise
+  const resolvedParams = await params; 
   const tag = resolvedParams.slug?.[0];
 
   return (
