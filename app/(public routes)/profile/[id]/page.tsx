@@ -1,16 +1,27 @@
 // app/profile/[id]/page.tsx
 
-import Link from 'next/link';
+import { QueryClient, HydrationBoundary, dehydrate } from '@tanstack/react-query';
+import { fetchNoteById } from '@/lib/api';
+import NoteDetailsClient from './NoteDetails.client';
 
-const NotFound = () => {
+type Props = {
+  params: { id: string };
+};
+
+const NoteDetailsPage = async ({ params }: Props) => {
+  const { id } = params;
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['note', id],
+    queryFn: () => fetchNoteById(id),
+  });
+
   return (
-    <div>
-      <h1>404 - Page Not Found</h1>
-      <p>Sorry, the page you&#39;re looking for doesn&#39;t exist.</p>
-      <Link href="/">Go back home</Link>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <NoteDetailsClient id={id} />
+    </HydrationBoundary>
   );
 };
 
-export default NotFound;
-
+export default NoteDetailsPage;

@@ -72,9 +72,11 @@ export const getCategories = async (): Promise<Category[]> => {
   }
 };
 
-export const fetchNotesByTag = async (tag?: string): Promise<Note[]> => {
+export const fetchNotesByTag = async (tag?: string, search?: string): Promise<Note[]> => {
   const params: Record<string, string> = {};
   if (tag && tag.toLowerCase() !== 'all') params.tag = tag;
+  if (search) params.search = search;
+
   try {
     const response = await instance.get<FetchNotesResponse>('/notes', { params });
     return response.data.notes;
@@ -82,3 +84,4 @@ export const fetchNotesByTag = async (tag?: string): Promise<Note[]> => {
     return [];
   }
 };
+
